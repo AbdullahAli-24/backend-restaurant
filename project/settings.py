@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,16 +88,10 @@ TEMPLATES = [
 # =========================================================
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "restaurant"),
-        "USER": os.environ.get("DB_USER", "postgres"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "hello"),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
-    }
-}
-
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL","postgres://postgres:hello@localhost:5432/postgres")
+    ,conn_max_age=600
+)}
 
 # =========================================================
 # Password Validation
@@ -151,9 +146,6 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "project" / "static",
-]
 
 
 # =========================================================
